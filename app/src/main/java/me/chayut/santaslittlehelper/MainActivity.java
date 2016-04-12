@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+
 import me.chayut.SantaHelperLogic.EndPoint;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 
@@ -49,10 +50,21 @@ public class MainActivity extends AppCompatActivity {
         btnSendEmail.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        mLogic.sendEmailTest("FOO@gBAR.com","BAR");
+                        mLogic.sendEmailTest("FOO@BAR.com","BAR");
                     }
                 }
         );
+
+        btnGetFile.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        try {
+                            // remain further implementation
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
     }
 
