@@ -64,14 +64,6 @@ public class SantaLogic {
     private ArrayList<EndPoint> endPoints;
     private ArrayList<SantaLocation> locationList;
     private ArrayList<SantaTask> taskList;
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
-    };
     //location
     private LocationManager locationManager;
     private boolean isLocationListenerRegistered = false;
@@ -125,6 +117,14 @@ public class SantaLogic {
     };
     private String mLoadedEmail = "";
     private String mLoadedPassword = "";
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
     private boolean creadentialLoaded = false;
     private int mAccountNumber = 0;
     private Account mAccountSelected;
@@ -389,7 +389,7 @@ public class SantaLogic {
 
     public void sendEmail()
     {
-        //TODO:use loadedUserCredential
+        //use loadedUserCredential
         try {
             EmailSender sender = new EmailSender(mLoadedEmail, mLoadedPassword);
             sender.sendMail("Test 2 ",
