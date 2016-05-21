@@ -6,22 +6,26 @@
 
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AppointTask"
-        android:id="@+id/textView" />
+        android:text="AppointTask" />
 
     <TextView
+        android:id="@+id/tvAppointTaskSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Time:"
-        android:id="@+id/tvLocation" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
 
     <TextView
+        android:id="@+id/tvActionSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Action:"
-        android:id="@+id/tvTaskSummary" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
 </LinearLayout>

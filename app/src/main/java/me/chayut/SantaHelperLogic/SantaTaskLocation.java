@@ -119,10 +119,6 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
     }
 
 
-
-
-
-
     public boolean isConditionMet(Location loc){
 
         if(SantaUtilities.getDistance(loc.getLongitude(),loc.getLatitude(),longitude,latitude) < mRange){

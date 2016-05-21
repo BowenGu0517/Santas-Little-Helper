@@ -51,8 +51,11 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
             rowView = inflater.inflate(R.layout.row_task_appoint, parent, false);
             SantaTaskAppoint task = (SantaTaskAppoint) mTask;
 
-            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
+            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvActionSummary);
             tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
+
+            TextView tvAppointSummary = (TextView) rowView.findViewById(R.id.tvAppointTaskSummary);
+            tvAppointSummary.setText( String.format("Time: %s",task.getTimeString()));
 
         }
         else if  (mTask instanceof SantaTaskLocation){
@@ -60,7 +63,7 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
             rowView = inflater.inflate(R.layout.row_task_location, parent, false);
             SantaTaskLocation task = (SantaTaskLocation) mTask;
 
-            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
+            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvActionSummary);
             tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
         }
         else if  (mTask instanceof SantaTaskBattery){
@@ -68,8 +71,12 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
             rowView = inflater.inflate(R.layout.row_task_battery, parent, false);
             SantaTaskBattery task = (SantaTaskBattery) mTask;
 
-            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
+            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvActionSummary);
             tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
+
+            TextView tvBattSummary = (TextView) rowView.findViewById(R.id.tvBattTaskSummary);
+            tvBattSummary.setText( String.format( "Batt Trigger: %d %% ",task.getmBattPercentage()));
+
         }
         else
         {

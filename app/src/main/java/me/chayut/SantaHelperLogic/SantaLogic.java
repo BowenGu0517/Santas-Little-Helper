@@ -75,6 +75,7 @@ public class SantaLogic {
     //location
     private LocationManager locationManager;
     private boolean isLocationListenerRegistered = false;
+    private int mBattPercentage = 50;
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -99,7 +100,7 @@ public class SantaLogic {
                         //location monitoring stuff
                         if(hasLocationTask()) {
                             if (!isLocationListenerRegistered) {
-                                initLocMon();
+                                initLocMon(mBattPercentage);
                             }
                         }
                         else
@@ -122,7 +123,6 @@ public class SantaLogic {
             }
         }
     };
-    private int mBattPercentage = 50;
     private String mLoadedEmail = "";
     private String mLoadedPassword = "";
     private boolean creadentialLoaded = false;
@@ -145,12 +145,10 @@ public class SantaLogic {
         //load user credential on start
         loadUserCredential();
 
-
         //init monitoring service
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         initBattMon();
-        initLocMon();
 
         //start periodical task
         // Create a scheduled thread pool with 3 core threads
@@ -739,7 +737,7 @@ public class SantaLogic {
         mContext.registerReceiver(batteryLevel, batteryLevelFilter);
     }
 
-    private void initLocMon(){
+    private void initLocMon(int Batt){
 
 
         /* ********************************************************************************************************************************************************* */

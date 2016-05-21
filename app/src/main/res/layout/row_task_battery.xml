@@ -5,23 +5,23 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BatteryTask"
-        android:id="@+id/textView" />
+        android:text="BatteryTask" />
 
     <TextView
+        android:id="@+id/tvBattTaskSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Trigger Batt % : "
-        android:id="@+id/textView2" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
+        android:id="@+id/tvActionSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Action:"
-        android:id="@+id/tvTaskSummary" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>
