@@ -11,7 +11,6 @@ import android.widget.Switch;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
-import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 
 public class SelectActionActivity extends AppCompatActivity {
 
@@ -41,7 +40,7 @@ public class SelectActionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent();
 
-                        //TODO[1]: update action with value in UI before return!!!
+                        //update action with value in UI before return!!!
 
                         if(rbEmail.isChecked())
                         {
@@ -128,7 +127,7 @@ public class SelectActionActivity extends AppCompatActivity {
         {
             mAction = getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
 
-            //TODO: if there is parcelable, load value to UI
+            //if there is parcelable, load value to UI
 
             //if no intent parcelable, create new
 

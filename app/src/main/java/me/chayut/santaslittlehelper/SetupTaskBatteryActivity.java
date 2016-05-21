@@ -105,7 +105,7 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
 
             // if there is parcelable, load value to UI
 
-            int batt = mTask.getmBattPercentage(); //TODO[UI], display this on UI
+            int batt = mTask.getmBattPercentage(); // display this on UI
 
             seekBattVolume.setProgress(batt);
 

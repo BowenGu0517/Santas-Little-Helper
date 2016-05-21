@@ -3,33 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.zhenning.AccountSelectActivity"
-    android:padding="17dp"
     android:orientation="vertical"
+    android:padding="17dp"
+    tools:context=".AccountSelectActivity"
     >
 
     <EditText
+        android:id="@+id/santa_email_recipient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email recipient"
         android:inputType="textEmailAddress"
-        android:id="@+id/santa_email_recipient"
         />
 
     <EditText
+        android:id="@+id/santa_email_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email Subject"
-        android:id="@+id/santa_email_subject"
         />
 
     <EditText
+        android:id="@+id/santa_email_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email content"
         android:inputType="textMultiLine"
         android:lines="8"
-        android:id="@+id/santa_email_content"
         />
 
 

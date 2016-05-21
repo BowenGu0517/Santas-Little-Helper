@@ -20,7 +20,6 @@ import java.util.Calendar;
 
 import me.chayut.SantaHelperLogic.SantaLogic;
 import me.zhenning.AccountInfoTestActivity;
-import me.zhenning.AccountSelectActivity;
 
 public class DebugActivity extends AppCompatActivity {
 

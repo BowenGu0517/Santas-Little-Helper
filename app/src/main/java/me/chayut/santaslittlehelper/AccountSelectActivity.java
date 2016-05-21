@@ -1,13 +1,17 @@
-package me.zhenning;
+package me.chayut.santaslittlehelper;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,7 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.santaslittlehelper.R;
+import me.chayut.santaslittlehelper.SantaService;
+import me.zhenning.AccountGeneral;
+import me.zhenning.AuthenticatorActivity;
 
 /**
  * Created by jiang on 2016/05/02.
@@ -24,12 +32,36 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
 
     private static final String STATE_DIALOG = "state_dialog";
 
+    SantaService mService;
+    SantaLogic mLogic;
+    boolean mBound = false;
+    TextView AccountSelectZone;
     private String TAG = this.getClass().getSimpleName();
     private AccountManager mAccountManager;
     private AlertDialog mAlertDialog;
     private Account mAccountSelected;
     private boolean mSelected;
-    TextView AccountSelectZone;
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
+            mService = binder.getService();
+            mLogic = mService.getSantaLogic();
+            mBound = true;
+
+
+            Log.d(TAG,mService.getHello());
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +152,43 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
             return mAccountSelected;
         else
             return null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        Log.d(TAG, "onResume()");
+
+        if(mBound){
+            Log.d(TAG,mService.getHello());
+        }
+        else
+        {
+            // Bind to LocalService
+            Intent intent = new Intent(this, SantaService.class);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Bind to LocalService
+        Intent intent = new Intent(this, SantaService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
+
     }
 
 }

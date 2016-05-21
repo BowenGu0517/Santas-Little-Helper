@@ -28,17 +28,19 @@
             android:text="Manage Location List"/>
 
         <Button
+            android:id="@+id/btnManageAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Account" />
+
+        <Button
             android:id="@+id/btnDebugActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onBtnDebug"
             android:text="Debug"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manage Account"
-            android:id="@+id/btnManageAccount" />
+
 
     </LinearLayout>
 

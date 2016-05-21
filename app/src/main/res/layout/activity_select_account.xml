@@ -3,31 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.zhenning.AccountSelectActivity"
-    android:padding="17dp"
     android:orientation="vertical"
+    android:padding="17dp"
+    tools:context=".AccountSelectActivity"
     >
 
     <TextView
+        android:id="@+id/account_select_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:layout_gravity="center_vertical"
         android:layout_marginTop="20dp"
         android:text="Pleas choose an account!"
-        android:id="@+id/account_select_zone"
-        android:layout_gravity="center_vertical"/>
+        android:textSize="20sp"/>
 
     <Button android:id="@+id/btnGetAccountList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:padding="10dp"
-        android:text="Get Account List"
-        android:layout_gravity="center_vertical"/>
+        android:text="Get Account List"/>
 
     <Button
+        android:id="@+id/btnAddNewAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnAddNewAccount"
         android:layout_gravity="center_vertical"
         android:padding="10dp"
         android:text="Add new Account"/>
@@ -35,8 +35,8 @@
     <Button android:id="@+id/btnSelectComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_gravity="center_vertical"
+        android:padding="10dp"
         android:text="Next"/>
 
 </LinearLayout>
