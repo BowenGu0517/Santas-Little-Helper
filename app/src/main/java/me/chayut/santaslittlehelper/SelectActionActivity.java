@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 
 import me.chayut.SantaHelperLogic.SantaAction;
@@ -17,11 +18,19 @@ public class SelectActionActivity extends AppCompatActivity {
     Button btnOK, btnCancel;
     SantaAction mAction;
     RadioButton rbSMS,rbEmail,rbWifi;
+    private EditText etSMSRecipient, etSMSMessage;
+    private EditText etEmailRecipient, etEmailContent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_action);
+
+        etSMSRecipient = (EditText) findViewById(R.id.edit_SMS_recipient);
+        etSMSMessage = (EditText) findViewById(R.id.edit_SMS_content);
+        etEmailRecipient = (EditText) findViewById(R.id.edit_email_recipient);
+        etEmailContent = (EditText) findViewById(R.id.edit_email_content);
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
@@ -35,18 +44,22 @@ public class SelectActionActivity extends AppCompatActivity {
                         {
                             mAction.setTaskType(SantaAction.ACTION_EMAIL);
 
-                            //TODO set value here
-                            mAction.setEmail("hello@gmail.com");
-                            mAction.setMessage("message");
+                            // set value here
+                            String emailRecipient = etEmailRecipient.getText().toString();
+                            String emailMessage = etEmailContent.getText().toString();
+                            mAction.setEmail(emailRecipient);
+                            mAction.setMessage(emailMessage);
 
                         }
                         else if(rbSMS.isChecked())
                         {
                             mAction.setTaskType(SantaAction.ACTION_SMS);
 
-                            //TODO set value here
-                            mAction.setPhoneNumber("810874081");
-                            mAction.setMessage("message");
+                            // set value here
+                            String SMSRecipient = etSMSRecipient.getText().toString();
+                            String SMSMessage = etSMSMessage.getText().toString();
+                            mAction.setPhoneNumber(SMSRecipient);
+                            mAction.setMessage(SMSMessage);
                         }
                         else if (rbWifi.isChecked()) {
                             mAction.setTaskType(SantaAction.ACTION_WIFI);
