@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:text="Send E-Mail"
         android:id="@+id/rbEmail"
-        android:layout_below="@+id/textView12"
+        android:layout_below="@+id/edit_SMS_content"
         android:layout_alignParentStart="true"
         android:checked="false" />
 
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:text="Wifi"
         android:id="@+id/rbWifi"
-        android:layout_below="@+id/textView10"
+        android:layout_below="@+id/edit_email_content"
         android:layout_alignParentStart="true"
         android:checked="false" />
 
@@ -67,41 +67,54 @@
         android:layout_below="@+id/rbWifi"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email:"
-        android:id="@+id/textView9"
+        android:id="@+id/edit_email_recipient"
+        android:hint="Enter your email recipient here!"
         android:layout_below="@+id/rbEmail"
+        android:inputType="textEmailAddress"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Message:"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/textView9"
+        android:hint="Enter your email subject here!"
+        android:id="@+id/edit_email_subject"
+        android:layout_below="@+id/edit_email_recipient"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email:"
-        android:id="@+id/textView11"
+        android:hint="Enter your email content here!"
+        android:id="@+id/edit_email_content"
+        android:layout_below="@+id/edit_email_subject"
+        android:lines="3"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:hint="Enter your SMS recipient here!"
+        android:id="@+id/edit_SMS_recipient"
         android:layout_below="@+id/rbSMS"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Message:"
-        android:id="@+id/textView12"
+        android:hint="Type your message here!"
+        android:id="@+id/edit_SMS_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentLeft="true" />
+        android:layout_below="@+id/edit_SMS_recipient"
+        android:layout_alignParentLeft="true"
+        android:lines="2"/>
 
 </RelativeLayout>
