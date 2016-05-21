@@ -90,7 +90,7 @@ public class SantaLogic {
                     public void run() {
 
 
-                        //TODO[note]:This section will run every minute
+                        //This section will run every minute
                         //check anything on UI thread
 
                         //check list for time
@@ -158,6 +158,11 @@ public class SantaLogic {
         ScheduledFuture<?> periodicFuture = sch.scheduleAtFixedRate(periodicTask, 0, 1, TimeUnit.MINUTES);
 
     }
+
+    public boolean isCreadentialLoaded(){
+        return creadentialLoaded;
+    }
+
 
     public boolean hasLocationTask()
     {

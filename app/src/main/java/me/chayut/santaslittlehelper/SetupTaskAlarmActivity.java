@@ -112,7 +112,26 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
 
             //if there is parcelable, load value to UI
 
-            String DateTime = mTask.getTimeString();//TODO[UI]:load this onto UI
+            String DateTime = mTask.getTimeString();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+
+            try {
+                c.setTime(sdf.parse(DateTime));
+                isSet =true;
+
+                //load this onto UI
+                TextView textView2 = (TextView) findViewById(R.id.textView2);
+                textView2.setText("HH:MM:SS:   "+c.get(Calendar.HOUR_OF_DAY)+": "+c.get(Calendar.MINUTE)+ ": "+c.get(Calendar.SECOND));
+
+                TextView textView = (TextView) findViewById(R.id.textView);
+                textView.setText("YY:MM:DD:  "+c.get(Calendar.YEAR)+": "+(c.get(Calendar.MONTH)+1)+ ":"+c.get(Calendar.DAY_OF_MONTH));
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
 
             tvActionDetail.setText(mTask.getAction().getTaskTypeString());
 
