@@ -77,6 +77,8 @@ public class SantaUtilities {
                 Log.d(TAG, "Encrypt to file: " + fileNameEnc);
 
                 //TODO: delete the source config file
+                boolean isDeleted  = file.delete();
+                Log.d(TAG, "Configure file deleted? "+Boolean.toString(isDeleted));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -127,6 +129,9 @@ public class SantaUtilities {
                 Log.d(TAG, "Done reading SD");
 
                 //TODO: delete decrypted file after reading
+                File fileToDelete = new File(Environment.getExternalStorageDirectory(), filenameEnc);
+                boolean isEcyptedDeleted = fileToDelete.delete();
+                Log.d(TAG, "Encrypted file deleted? "+Boolean.toString(isEcyptedDeleted));
 
                 mObj = new JSONObject(aBuffer);
             }
