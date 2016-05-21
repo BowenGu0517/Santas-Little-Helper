@@ -48,9 +48,6 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_alarm);
 
-
-
-
         //setup UI comp
         tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
 
@@ -60,7 +57,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
                     public void onClick(View v) {
                         Intent intent = new Intent();
 
-                        //TODO: read value from UI before return
+                        //read value from UI before return
 
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                         String outString = sdf.format(c.getTime());
@@ -73,7 +70,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
                             e.printStackTrace();
                         }
 
-                        //TODO: verify the the user input is valid
+
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,mTask);
                         setResult(RESULT_OK, intent);
                         finish();

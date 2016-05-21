@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
-import me.chayut.SantaHelperLogic.SantaTask;
-import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 import me.chayut.SantaHelperLogic.SantaTaskBattery;
 
 public class SetupTaskBatteryActivity extends AppCompatActivity {
@@ -21,6 +21,10 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
     SantaTaskBattery mTask;
     private Button btnOK, btnCancel,btnSetAction;
     private TextView tvActionDetail;
+
+    private SeekBar seekBattVolume = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,10 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent();
 
-                        //TODO[UI]: read value from UI before return
+                        //read value from UI before return
 
-                        //TODO[UI]: verify the the user input is valid
+                        //verify the the user input is valid
+                        mTask.setmBattPercentage(seekBattVolume.getProgress());
 
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_BATT,mTask);
                         setResult(RESULT_OK, intent);
@@ -70,6 +75,29 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                     }
                 });
 
+        //Setup UI
+        seekBattVolume = (SeekBar)findViewById(R.id.seek1);
+        tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
+        seekBattVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressChanged = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressChanged = progress;
+                mTask.setmBattPercentage(progressChanged);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(SetupTaskBatteryActivity.this,"The Battery Volume: "+progressChanged,Toast.LENGTH_LONG).show();
+            }
+        });
+
         //Try Get parcelable
         if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_BATT))
         {
@@ -78,6 +106,8 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
             // if there is parcelable, load value to UI
 
             int batt = mTask.getmBattPercentage(); //TODO[UI], display this on UI
+
+            seekBattVolume.setProgress(batt);
 
             tvActionDetail.setText(mTask.getAction().getTaskTypeString());
 
