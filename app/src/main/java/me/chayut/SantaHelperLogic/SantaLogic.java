@@ -507,7 +507,17 @@ public class SantaLogic {
                 String email = action.getEmail();
                 String message = action.getMessage();
 
-                //TODO: zhenning -> send email
+                // zhenning -> send email
+                try {
+                    EmailSender sender = new EmailSender(mLoadedEmail, mLoadedPassword);
+                    sender.sendMail("Santa Alert",
+                            message,
+                            mLoadedEmail,
+                            email);
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
+                }
+
 
                 break;
 
