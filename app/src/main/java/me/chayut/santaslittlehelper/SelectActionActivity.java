@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Switch;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
@@ -17,6 +18,7 @@ public class SelectActionActivity extends AppCompatActivity {
 
     Button btnOK, btnCancel;
     SantaAction mAction;
+    Switch aSwitch;
     RadioButton rbSMS,rbEmail,rbWifi;
     private EditText etSMSRecipient, etSMSMessage;
     private EditText etEmailRecipient, etEmailContent;
@@ -31,6 +33,7 @@ public class SelectActionActivity extends AppCompatActivity {
         etSMSMessage = (EditText) findViewById(R.id.edit_SMS_content);
         etEmailRecipient = (EditText) findViewById(R.id.edit_email_recipient);
         etEmailContent = (EditText) findViewById(R.id.edit_email_content);
+        aSwitch = (Switch) findViewById(R.id.switch1);
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
@@ -63,6 +66,8 @@ public class SelectActionActivity extends AppCompatActivity {
                         }
                         else if (rbWifi.isChecked()) {
                             mAction.setTaskType(SantaAction.ACTION_WIFI);
+                            boolean isChecked = aSwitch.isChecked();
+                            mAction.setWifiState(isChecked);
                         }
 
                         intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,mAction);
@@ -127,19 +132,23 @@ public class SelectActionActivity extends AppCompatActivity {
 
             //if no intent parcelable, create new
 
-
             switch (mAction.getTaskType()){
                 case SantaAction.ACTION_EMAIL:
                     rbEmail.callOnClick();
-                    //TODO:setup UI
+                    //setup UI
+                    etEmailContent.setText(mAction.getMessage());
+                    etEmailRecipient.setText(mAction.getEmail());
                     break;
                 case SantaAction.ACTION_SMS:
                     rbSMS.callOnClick();
-                    //TODO:setup UI
+                    //setup UI
+                    etSMSMessage.setText(mAction.getMessage());
+                    etSMSRecipient.setText(mAction.getPhoneNumber());
                     break;
                 case SantaAction.ACTION_WIFI:
                     rbWifi.callOnClick();
-                    //TODO:setup UI
+                    //setup UI
+                    aSwitch.setChecked(mAction.getWifiState());
                     break;
                 case SantaAction.ACTION_NULL:
                     break;
