@@ -77,7 +77,7 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
         else{
             /*
 
-            Intent to another activity
+            //TODO: Read the account info here
 
             */
         }

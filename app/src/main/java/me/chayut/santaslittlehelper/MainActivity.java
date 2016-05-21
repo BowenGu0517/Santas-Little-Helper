@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnManageLocation,btnDebug;
     Button btnManageTask;
+    Button btnManageAccount;
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -67,7 +68,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, SantaService.class);
         startService(intent);
 
-
+        btnManageAccount = (Button) findViewById(R.id.btnManageAccount);
+        btnManageAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AccountSelectActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         btnManageTask= (Button) findViewById(R.id.btnManageTask);
