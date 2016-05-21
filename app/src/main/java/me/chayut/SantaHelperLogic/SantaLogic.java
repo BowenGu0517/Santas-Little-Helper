@@ -68,16 +68,6 @@ public class SantaLogic {
     private LocationManager locationManager;
     private boolean isLocationListenerRegistered = false;
     private int mBattPercentage = 50;
-    private String mLoadedEmail = "";
-    private String mLoadedPassword = "";
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
-    };
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -124,6 +114,16 @@ public class SantaLogic {
                 e.printStackTrace();
             }
         }
+    };
+    private String mLoadedEmail = "";
+    private String mLoadedPassword = "";
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
     };
     private boolean creadentialLoaded = false;
     private int mAccountNumber = 0;
@@ -326,6 +326,10 @@ public class SantaLogic {
     //region runnable
 
     //
+
+    public void setAccountNumber(int index){
+        mAccountNumber = index;
+    }
     public void loadUserCredential()
     {
         AccountManager mAccountManager;

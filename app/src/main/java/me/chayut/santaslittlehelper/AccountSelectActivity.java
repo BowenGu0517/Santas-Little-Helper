@@ -85,7 +85,18 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
         btnSelectComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextActivity();
+                if (!mSelected) {
+                    Toast.makeText(AccountSelectActivity.this, "Not yet selected!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                   AccountSelectActivity.this.finish();
+            /*
+
+            //TODO: Read the account info here
+
+            */
+                }
             }
         });
 
@@ -102,18 +113,7 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
         startActivity(intent);
     }
 
-    private void nextActivity() {
-        if (!mSelected) {
-            Toast.makeText(this, "Not yet selected!", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            /*
 
-            //TODO: Read the account info here
-
-            */
-        }
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -141,6 +141,8 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
                     mAccountSelected = availableAccounts[which];
                     AccountSelectZone.setText(mAccountSelected.name);
                     mSelected = true;
+                    mLogic.setAccountNumber(which);
+                    mLogic.loadUserCredential();
                 }
             }).create();
             mAlertDialog.show();
