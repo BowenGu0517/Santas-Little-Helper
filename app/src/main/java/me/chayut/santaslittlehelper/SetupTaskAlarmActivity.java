@@ -40,7 +40,8 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
     private Button btn_set_date;
     private TextView tvActionDetail;
 
-    private boolean isSet = false;
+    private boolean isTimeSet = false;
+    private boolean isDateSet = false;
 
 
     @Override
@@ -59,21 +60,28 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
 
                         //read value from UI before return
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-                        String outString = sdf.format(c.getTime());
-                        mTask.setTimeString(outString);
+                        if(isTimeSet && isDateSet)
+                        {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+                            String outString = sdf.format(c.getTime());
+                            mTask.setTimeString(outString);
 
-                        Calendar cal = Calendar.getInstance();
-                        try {
-                            cal.setTime(sdf.parse(outString));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                            Calendar cal = Calendar.getInstance();
+                            try {
+                                cal.setTime(sdf.parse(outString));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,mTask);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"You have not select date/time",Toast.LENGTH_SHORT).show();
                         }
 
-
-                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,mTask);
-                        setResult(RESULT_OK, intent);
-                        finish();
                     }
                 }
         );
@@ -118,7 +126,8 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
 
             try {
                 c.setTime(sdf.parse(DateTime));
-                isSet =true;
+                isTimeSet =true;
+                isDateSet = true;
 
                 //load this onto UI
                 TextView textView2 = (TextView) findViewById(R.id.textView2);
@@ -141,6 +150,8 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
             //if no intent parcelable, create new
             mTask = new SantaTaskAppoint();
             mTask.setAction(new SantaAction());
+            isTimeSet =false;
+            isDateSet = false;
         }
 
     }
@@ -164,10 +175,14 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
                                 TextView textView = (TextView) findViewById(R.id.textView2);
                                 textView.setText("HH:MM:SS:   "+c.get(Calendar.HOUR_OF_DAY)+": "+c.get(Calendar.MINUTE)+ ": "+c.get(Calendar.SECOND));
 
+                                isTimeSet = true;
                             }
                         }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime
                         .get(Calendar.MINUTE), false).show();
+
+
                 break;
+
             case R.id.btn_set_date:
                 DatePickerDialog dpd = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
@@ -180,6 +195,8 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
                                 c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                                 TextView textView = (TextView) findViewById(R.id.textView);
                                 textView.setText("YY:MM:DD:  "+c.get(Calendar.YEAR)+": "+(c.get(Calendar.MONTH)+1)+ ":"+c.get(Calendar.DAY_OF_MONTH));
+
+                                isDateSet = true;
                             }
                         }, currentTime.get(Calendar.YEAR), currentTime.get(Calendar.MONTH),  currentTime.get(Calendar.DAY_OF_MONTH)   );
                 dpd.show();

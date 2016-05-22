@@ -91,11 +91,6 @@ public class AccountSelectActivity extends AccountAuthenticatorActivity {
                 else{
 
                    AccountSelectActivity.this.finish();
-            /*
-
-            //TODO: Read the account info here
-
-            */
                 }
             }
         });

@@ -46,6 +46,9 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
     private float la;
     private float lo;
     private float range = 0;
+
+    private boolean locationSelected = false;
+
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -89,6 +92,11 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                         if (range_set.getText().toString().equals(""))
                         {
                             Toast.makeText(getApplicationContext(),"Invalid input",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(!locationSelected)
+                        {
+                            Toast.makeText(getApplicationContext(),"You have not select location",Toast.LENGTH_SHORT).show();
+
                         }
                         else {
                             try {
@@ -175,6 +183,8 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
 
                                         SantaLocation loc = locList.get(which);
 
+                                        locationSelected = true;
+
                                         // load location to UI
                                         //dont need convert back to SantaLocation object, simpler
                                         double latitude = loc.getLatitude();
@@ -210,6 +220,8 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
             la=(float)latitude;
             lo=(float)longitude;
             range =  mTask.getRange();
+
+            locationSelected = true;
 
             range_set.setText(String.format("%f",range));
 
