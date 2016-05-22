@@ -14,9 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.Exchanger;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLocation;
@@ -37,6 +40,12 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
     SantaTaskLocation mTask;
     private Button btnOK, btnCancel,btnSetAction,btnSelectLocation;
     private TextView tvActionDetail;
+
+    private TextView display;
+    private EditText range_set;
+    private float la;
+    private float lo;
+    private float range = 0;
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -64,6 +73,8 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
 
         //Setup UI
         tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
+        display=(TextView) findViewById(R.id.display);
+        range_set=(EditText)findViewById(R.id.range_set);
 
 
         btnOK = (Button) findViewById(R.id.btnOK);
@@ -72,13 +83,35 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent();
 
-                        //TODO[UI]: read value from UI before return
+                        // read value from UI before return
 
-                        //TODO[UI]: verify the the user input is valid
+                        //verify the the user input is valid
+                        if (range_set.getText().toString().equals(""))
+                        {
+                            Toast.makeText(getApplicationContext(),"Invalid input",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            try {
+                                String range_temp = range_set.getText().toString();
+                                range = Float.parseFloat(range_temp);
 
-                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,mTask);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                                mTask.setLatitude(la);
+                                mTask.setLongitude(lo);
+                                mTask.setRange(range);
+
+                                intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,mTask);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                            catch (Exception e){
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(),"Invalid input",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+
+
+
                     }
                 }
         );
@@ -142,10 +175,15 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
 
                                         SantaLocation loc = locList.get(which);
 
-                                        //TODO load location to UI
+                                        // load location to UI
                                         //dont need convert back to SantaLocation object, simpler
                                         double latitude = loc.getLatitude();
                                         double longitude = loc.getLongitude();
+
+                                        la=(float)latitude;
+                                        lo=(float)longitude;
+
+                                        display.setText("Latitude : "+latitude+"\nLongitude : "+longitude);
 
                                     }
                                 });
@@ -163,13 +201,19 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
 
             //if there is parcelable, load value to UI
 
-            //TODO[UI], load this value to UI
+            //load this value to UI
 
             //dont need convert back to SantaLocation object, simpler
             double latitude = mTask.getLatitude();
             double longitude = mTask.getLongitude();
-            double range = mTask.getRange();
 
+            la=(float)latitude;
+            lo=(float)longitude;
+            range =  mTask.getRange();
+
+            range_set.setText(String.format("%f",range));
+
+            display.setText("Latitude : "+la+"\nLongitude : "+lo);
 
             tvActionDetail.setText(mTask.getAction().getTaskTypeString());
 
