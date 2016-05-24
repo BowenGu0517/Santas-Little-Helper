@@ -16,48 +16,48 @@
 
         <Button
             android:id="@+id/btnSendEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="send Test Email" />
 
         <Button
             android:id="@+id/buttonSendSMS"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="send Test SMS"/>
 
         <Button
             android:id="@+id/btnWifiOn"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="wifi On test"/>
         <Button
             android:id="@+id/btnJSON"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Test write Config"/>
 
         <Button
             android:id="@+id/btnConfRead"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Test Read Config"/>
 
         <Button
             android:id="@+id/btnTestAlarm"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Test Alarm"/>
 
         <Button
             android:id="@+id/account_test"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="AccountManage"/>
 
         <Button
             android:id="@+id/AccountInfoTest"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="AccountInfoTesting"/>
 

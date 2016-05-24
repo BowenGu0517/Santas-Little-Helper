@@ -16,26 +16,26 @@
 
         <Button
             android:id="@+id/btnManageTask"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Manage Tasks"/>
 
         <Button
             android:id="@+id/btnManageLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:onClick="onBtnClicked"
             android:text="Manage Location List"/>
 
         <Button
             android:id="@+id/btnManageAccount"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Manage Account" />
 
         <Button
             android:id="@+id/btnDebugActivity"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:onClick="onBtnDebug"
             android:text="Debug"/>
