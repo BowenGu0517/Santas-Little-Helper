@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,7 +40,6 @@ import me.zhenning.EmailSender;
 public class SantaLogic {
 
     /** const */
-    public static final String EXTRA_SANTA_TASK = "EXTRA_SANTA_TASK";
     public static final String EXTRA_SANTA_TASK_APPOINT = "EXTRA_SANTA_TASK_APPOINT";
     public static final String EXTRA_SANTA_TASK_BATT = "EXTRA_SANTA_TASK_BATT";
     public static final String EXTRA_SANTA_TASK_LOC = "EXTRA_SANTA_TASK_LOC";
@@ -68,6 +69,17 @@ public class SantaLogic {
     private LocationManager locationManager;
     private boolean isLocationListenerRegistered = false;
     private int mBattPercentage = 50;
+    private Location lastKnownLocation;
+    private String mLoadedEmail = "";
+    private String mLoadedPassword = "";
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -114,16 +126,6 @@ public class SantaLogic {
                 e.printStackTrace();
             }
         }
-    };
-    private String mLoadedEmail = "";
-    private String mLoadedPassword = "";
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
     };
     private boolean creadentialLoaded = false;
     private int mAccountNumber = 0;
@@ -174,6 +176,28 @@ public class SantaLogic {
         }
 
         return false;
+    }
+
+    //Find distance to the closest location
+    public double closestLocationDistance(Location loc)
+    {
+        double distance = 99999999999f;
+
+        for (SantaTask mTask : taskList)
+        {
+            if (mTask instanceof SantaTaskLocation) {
+
+                SantaTaskLocation mTaskLoc = (SantaTaskLocation) mTask;
+
+                double newDist = mTaskLoc.getDistance(loc);
+                if(newDist < distance)
+                {
+                    distance = newDist;
+                }
+            }
+        }
+
+        return distance;
     }
 
     public boolean addEndPoint (EndPoint mEP){
@@ -410,6 +434,8 @@ public class SantaLogic {
     public void onLocationUpdateReceived(Location location){
         Log.d(TAG,String.format("Location: %s",location.toString()));
 
+        lastKnownLocation = location;
+
         //checking the tasks list
         for (SantaTask mTask : taskList)
         {
@@ -423,7 +449,12 @@ public class SantaLogic {
                     //TODO[L]:remove from list
                 }
             }
+        }
 
+        //if there is no location relate task left, remove location service
+        if(!hasLocationTask())
+        {
+            stopLocMon();
         }
     }
 
@@ -750,8 +781,63 @@ public class SantaLogic {
         // Register the listener LocationManager
         try
         {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
+            //setup distance based update.
+            float minDistance = 0.0f;
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location==null)
+            {
+                location=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+
+            if (location!=null)
+            {
+               lastKnownLocation = location;
+            }
+
+            if (lastKnownLocation!=null)
+            {
+               double distance =  closestLocationDistance(lastKnownLocation);
+
+                if(distance > 50000){
+                    minDistance =50000f;
+                }
+                else if(distance > 10000){
+                    minDistance = 10000f;
+                }
+
+            }
+
+            //optimize update according to batt
+            int updateInterval = 5000;
+            if (Batt < 50)
+            {
+                updateInterval = 5000;
+            }
+            else
+            {
+                updateInterval = 15000;
+            }
+
+            // Energy optimized !
+            // ARE WE CONNECTED TO THE NET
+            ConnectivityManager connec = (ConnectivityManager)
+                    mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED ||
+                    connec.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTED )
+            {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, updateInterval, minDistance, locationListener);
+            }
+            else if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED
+                    ||  connec.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED  )
+            {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateInterval, minDistance, locationListener);
+            }
+            else{
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateInterval, minDistance, locationListener);
+            }
+
+            isLocationListenerRegistered = true;
         }
         catch (SecurityException e) {
             e.printStackTrace();
@@ -761,6 +847,8 @@ public class SantaLogic {
     private void stopLocMon(){
 
         locationManager.removeUpdates(locationListener);
+
+        isLocationListenerRegistered = false;
 
     }
 

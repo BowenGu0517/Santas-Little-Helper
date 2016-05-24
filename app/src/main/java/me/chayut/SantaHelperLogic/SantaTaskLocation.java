@@ -121,13 +121,20 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
 
     public boolean isConditionMet(Location loc){
 
-        if(SantaUtilities.getDistance(loc.getLongitude(),loc.getLatitude(),longitude,latitude) < mRange){
+        double distance = getDistance(loc);
+        Log.d(TAG,String.format("isConditionMet -> Distance: %f, Range: %f",distance,mRange));
+        if(distance < mRange){
+
             return true;
         }
         else {
             return false;
         }
 
+    }
+
+    public double getDistance(Location loc){
+        return SantaUtilities.getDistance(loc.getLongitude(),loc.getLatitude(),longitude,latitude);
     }
 
     @Override
