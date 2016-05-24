@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        //setTitle("My new title");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
         //start service
         Intent intent = new Intent(MainActivity.this, SantaService.class);
         startService(intent);

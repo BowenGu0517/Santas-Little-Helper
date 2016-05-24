@@ -62,6 +62,12 @@ public class AlarmActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+        setTitle("Alarm Alarm!!!");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
+
         mediaPlayer = mediaPlayer.create(this,R.raw.pig);
         mediaPlayer.start();
 

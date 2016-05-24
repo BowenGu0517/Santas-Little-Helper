@@ -62,6 +62,10 @@ public class ManageLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_location);
 
+        setTitle("Manage Location");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
         //Listview setup
         lvLocations = (ListView) findViewById(R.id.listViewLocations);
 
@@ -76,6 +80,7 @@ public class ManageLocationActivity extends AppCompatActivity {
 
                 // 2. Chain together various setter methods to set the dialog characteristics
                 builder.setTitle("Location: " + item.getName());
+                builder.setIcon(R.mipmap.ic_launcher);
 
                 final String[] array = {"Edit", "Delete"};
 

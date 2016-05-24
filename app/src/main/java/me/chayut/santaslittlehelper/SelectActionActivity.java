@@ -28,6 +28,10 @@ public class SelectActionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_action);
 
+        setTitle("Choose Action");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
         etSMSRecipient = (EditText) findViewById(R.id.edit_SMS_recipient);
         etSMSMessage = (EditText) findViewById(R.id.edit_SMS_content);
         etEmailRecipient = (EditText) findViewById(R.id.edit_email_recipient);

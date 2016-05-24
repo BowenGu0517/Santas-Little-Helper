@@ -69,6 +69,8 @@ public class SetupLocationActivity extends FragmentActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_location);
 
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_set);
         mapFragment.getMapAsync(this);
 

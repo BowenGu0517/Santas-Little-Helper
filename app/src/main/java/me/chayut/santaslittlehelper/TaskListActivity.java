@@ -69,6 +69,10 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        setTitle("Manage Task");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
         //Listview setup
         lvTasks = (ListView) findViewById(R.id.listViewTasks);
 
@@ -83,6 +87,7 @@ public class TaskListActivity extends AppCompatActivity {
 
                 // 2. Chain together various setter methods to set the dialog characteristics
                 builder.setTitle("Task selected");
+                builder.setIcon(R.mipmap.ic_launcher);
 
                 final String[] array = {"Edit", "Delete"};
 

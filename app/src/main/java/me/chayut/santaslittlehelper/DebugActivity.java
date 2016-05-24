@@ -60,6 +60,10 @@ public class DebugActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_debug);
 
+        setTitle("Debug Page");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
         //start service
         Intent intent = new Intent(DebugActivity.this, SantaService.class);
         startService(intent);
