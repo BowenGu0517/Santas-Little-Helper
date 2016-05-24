@@ -70,16 +70,6 @@ public class SantaLogic {
     private boolean isLocationListenerRegistered = false;
     private int mBattPercentage = 50;
     private Location lastKnownLocation;
-    private String mLoadedEmail = "";
-    private String mLoadedPassword = "";
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
-    };
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -126,6 +116,16 @@ public class SantaLogic {
                 e.printStackTrace();
             }
         }
+    };
+    private String mLoadedEmail = "";
+    private String mLoadedPassword = "";
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
     };
     private boolean creadentialLoaded = false;
     private int mAccountNumber = 0;
@@ -808,14 +808,16 @@ public class SantaLogic {
             }
 
             //optimize update according to batt
-            int updateInterval = 5000;
+            int updateInterval = 60*1000;
             if (Batt < 50)
             {
-                updateInterval = 5000;
+                //longer update interval
+                updateInterval = 5*60*1000;
             }
             else
             {
-                updateInterval = 15000;
+                //shorter update interval
+                updateInterval = 1*60*1000;
             }
 
             // Energy optimized !
