@@ -32,8 +32,8 @@ public class AlarmActivity extends AppCompatActivity {
     boolean mBound = false;
 
     int ButtonCancel_clicked = 0;
+    AlertDialog dialogue;
     private MediaPlayer mediaPlayer;
-
     private String taskUUID = "";
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -96,17 +96,20 @@ public class AlarmActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "TIME UP", Toast.LENGTH_LONG).show();
 
+
         final Handler handler = new Handler(){
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
                         if(ButtonCancel_clicked==0) {
+                            Log.d(TAG,"Sorry, No One Heard the Alarm ");
 
                             Toast.makeText(getApplicationContext(), "Sorry, No One Heard the Alarm ", Toast.LENGTH_LONG).show();
 
                             //issue alert to logic that alarm missed
                             if(mBound){
                                 mLogic.onAlarmMissed(taskUUID);
+                                Log.d(TAG,"posted to Logic");
                             }
                             else{
                                 Toast.makeText(getBaseContext(),"communication with logic error",
@@ -124,6 +127,7 @@ public class AlarmActivity extends AppCompatActivity {
                                     origionalVolume,
                                     0);
 
+                            dialogue.dismiss();
 
                             AlarmActivity.this.finish();
 
@@ -147,7 +151,7 @@ public class AlarmActivity extends AppCompatActivity {
         timer = new Timer(true);
         timer.schedule(task, 1000 * 1 * 15);  //  Delay 1000ms *5    5s
 
-        new AlertDialog.Builder(AlarmActivity.this).setTitle("alarm").setMessage("time up ~")
+        dialogue =  new AlertDialog.Builder(AlarmActivity.this).setTitle("alarm").setMessage("time up ~")
                 .setPositiveButton("close alarm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

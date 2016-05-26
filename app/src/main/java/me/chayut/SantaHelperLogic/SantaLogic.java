@@ -70,6 +70,16 @@ public class SantaLogic {
     private boolean isLocationListenerRegistered = false;
     private int mBattPercentage = 50;
     private Location lastKnownLocation;
+    private String mLoadedEmail = "";
+    private String mLoadedPassword = "";
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -116,16 +126,6 @@ public class SantaLogic {
                 e.printStackTrace();
             }
         }
-    };
-    private String mLoadedEmail = "";
-    private String mLoadedPassword = "";
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
     };
     private boolean creadentialLoaded = false;
     private int mAccountNumber = 0;
@@ -277,12 +277,14 @@ public class SantaLogic {
 
                 SantaTaskAppoint task = (SantaTaskAppoint) mTask;
                 if (task.getUuid().equals(taskUUID)) {
+                    Log.d(TAG,"return task UUID" + taskUUID);
                     return mTask;
                 }
             }
             else if  (mTask instanceof SantaTaskLocation){
                 SantaTaskLocation task = (SantaTaskLocation) mTask;
                 if (task.getUuid().equals(taskUUID)) {
+                    Log.d(TAG,"return task UUID" + taskUUID);
                     return mTask;
                 }
 
@@ -290,6 +292,7 @@ public class SantaLogic {
             else if  (mTask instanceof SantaTaskBattery){
                 SantaTaskBattery task = (SantaTaskBattery) mTask;
                 if (task.getUuid().equals(taskUUID)) {
+                    Log.d(TAG,"return task UUID" + taskUUID);
                     return mTask;
                 }
             }
@@ -498,7 +501,7 @@ public class SantaLogic {
                     Log.d(TAG,"HEHEHE running~");
                     mContext.startActivity(i);
 
-                    removeTaskByUUID(mTask.uuid);
+                    //removeTaskByUUID(mTask.uuid); remove freaking bug
                 }
 
             }
@@ -507,16 +510,20 @@ public class SantaLogic {
     }
 
     public void onAlarmMissed(String uuid){
-        Log.d(TAG,"onAlarmMissed()");
+        Log.d(TAG,"onAlarmMissed(): " + uuid);
         //call this function,  alarm missed when user miss the alarm
         SantaTaskAppoint task= (SantaTaskAppoint) getTaskByUUID(uuid);
 
         //take action
-        if(task != null ) {
+        if(task != null) {
 
             SantaAction action = task.getAction();
             executeAction(action);
             //TODO[L]:remove from list
+        }
+        else
+        {
+            Log.d(TAG,"cant find task");
         }
 
     }
