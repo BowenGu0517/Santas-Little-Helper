@@ -1,5 +1,7 @@
 package me.zhenning;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -33,7 +35,7 @@ public class DataEncryption {
         KeyGenerator kgen;
         mKey = null;
         try {
-
+            //TODO: change to phone imie and other stuff
             byte[] encodedKey     = Base64.decode("r1GqRCkvIk3zKDOz5CoLy8PegwutVgQ3", Base64.DEFAULT);
             SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
 
@@ -154,9 +156,7 @@ public class DataEncryption {
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
-
         return seconds;
-
     }
 
     public void setBlocksize(int blocksize) {

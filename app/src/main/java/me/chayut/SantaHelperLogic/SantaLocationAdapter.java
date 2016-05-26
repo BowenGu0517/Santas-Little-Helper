@@ -28,7 +28,6 @@ public class SantaLocationAdapter  extends ArrayAdapter<SantaLocation> {
 
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

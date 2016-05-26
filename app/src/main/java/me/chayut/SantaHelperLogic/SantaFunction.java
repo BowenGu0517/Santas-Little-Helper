@@ -83,7 +83,6 @@ import android.util.Log;
         sms.sendTextMessage(phoneNumber,null,message,sentPI,deliveredPI);
     }
 
-
     static public  void setWiFiStatus(Context context, boolean status){
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if (status == true && !wifiManager.isWifiEnabled()){
@@ -92,9 +91,6 @@ import android.util.Log;
             wifiManager.setWifiEnabled(false);
         }
     }
-
-
-
 
 
     static public void setBrightness (Context context,int brightness) {

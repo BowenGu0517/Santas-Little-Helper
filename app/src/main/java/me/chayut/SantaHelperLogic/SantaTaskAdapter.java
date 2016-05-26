@@ -42,7 +42,6 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-
         SantaTask mTask = mList.get(position);
 
 

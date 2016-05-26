@@ -70,6 +70,16 @@ public class SantaLogic {
     private boolean isLocationListenerRegistered = false;
     private int mBattPercentage = 50;
     private Location lastKnownLocation;
+    private String mLoadedEmail = "";
+    private String mLoadedPassword = "";
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -116,16 +126,6 @@ public class SantaLogic {
                 e.printStackTrace();
             }
         }
-    };
-    private String mLoadedEmail = "";
-    private String mLoadedPassword = "";
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
     };
     private boolean creadentialLoaded = false;
     private int mAccountNumber = 0;
@@ -256,6 +256,20 @@ public class SantaLogic {
                     writeSantaConfig();
                     return true;
                 }
+            }
+        }
+
+        if(hasLocationTask()) {
+            if (!isLocationListenerRegistered) {
+                initLocMon(mBattPercentage);
+            }
+        }
+        else
+        {
+            //there is no task about location
+            if(isLocationListenerRegistered)
+            {
+                stopLocMon();
             }
         }
 
@@ -784,7 +798,7 @@ public class SantaLogic {
     }
 
     private void initLocMon(int Batt){
-
+        Log.d(TAG,"initLocMon");
 
         /* ********************************************************************************************************************************************************* */
         // Register the listener LocationManager
@@ -807,27 +821,29 @@ public class SantaLogic {
             {
                double distance =  closestLocationDistance(lastKnownLocation);
 
-                if(distance > 50000){
-                    minDistance =50000f;
+                if(distance > 5000){
+                    minDistance =5000f;
                 }
-                else if(distance > 10000){
-                    minDistance = 10000f;
+                else if(distance > 1000){
+                    minDistance = 1000f;
                 }
 
             }
 
+            minDistance =0;
             //optimize update according to batt
             int updateInterval = 60*1000;
             if (Batt < 50)
             {
                 //longer update interval
-                updateInterval = 5*60*1000;
+                updateInterval = 5*1000;
             }
             else
             {
                 //shorter update interval
-                updateInterval = 1*60*1000;
+                updateInterval = 1*1000;
             }
+
 
             // Energy optimized !
             // ARE WE CONNECTED TO THE NET
@@ -840,7 +856,7 @@ public class SantaLogic {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, updateInterval, minDistance, locationListener);
             }
             else if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED
-                    ||  connec.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED  )
+                    ||  connec.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED)
             {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateInterval, minDistance, locationListener);
             }
@@ -856,6 +872,8 @@ public class SantaLogic {
     }
 
     private void stopLocMon(){
+
+        Log.d(TAG,"stopLocMon");
 
         locationManager.removeUpdates(locationListener);
 

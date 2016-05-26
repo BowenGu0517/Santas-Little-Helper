@@ -97,14 +97,17 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         try {
             tSet.setTime(sdf.parse(timeString));
 
+            Log.d(TAG, String.format("Timer %d",tNow.compareTo(tSet)));
+
             if(tNow.compareTo(tSet) > 0){
                 //if the time has passed
-                //TODO:check that it really works
+
                 return true;
             }
 
         } catch (ParseException e) {
             e.printStackTrace();
+
         }
 
         return false;
